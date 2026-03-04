@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>WEIRDGEDDON</title>
+
+<style>
+body{
+background:black;
+color:cyan;
+font-family:monospace;
+text-align:center;
+margin:0;
+}
+
+/* movie logo */
+.logo{
+display:block;
+margin:auto;
+width:550px;
+margin-top:20px;
+filter:drop-shadow(0 0 35px cyan);
+}
+
+h1{
+text-shadow:0 0 20px cyan;
+}
+
+button{
+background:black;
+color:cyan;
+border:2px solid cyan;
+padding:10px;
+margin:10px;
+cursor:pointer;
+font-size:16px;
+}
+
+button:hover{
+background:cyan;
+color:black;
+}
+
+.section{
+display:none;
+padding:30px;
+}
+
+.card{
+border:1px solid cyan;
+padding:15px;
+margin:15px;
+display:inline-block;
+width:220px;
+box-shadow:0 0 15px cyan;
+}
+</style>
+</head>
+
+<body>
+
+<!-- MOVIE LOGO -->
+<img src="movielogo.png" class="logo">
+
+<h1>WEIRDGEDDON PORTAL</h1>
+
+<button onclick="show('portal')">PORTAL</button>
+<button onclick="show('shop')">SHOP</button>
+<button onclick="show('terminal')">SECRET</button>
+
+<!-- ================= PORTAL ================= -->
+<div id="portal" class="section">
+
+<h2>OFFICIAL TRAILER</h2>
+
+<video width="800" controls
+style="box-shadow:0 0 40px cyan;">
+<source src="trailer.mp4" type="video/mp4">
+</video>
+
+<p>REALITY IS BREAKING...</p>
+
+</div>
+
+<!-- ================= SHOP ================= -->
+<div id="shop" class="section">
+
+<img src="shoplogo.png"
+style="width:350px;
+filter:drop-shadow(0 0 20px cyan);">
+
+<h2>LA ROACHES THINGS & STUFF</h2>
+
+<div class="card">
+Reality Stabilizer<br>$9999
+<br><button onclick="alert('OUT OF STOCK')">BUY</button>
+</div>
+
+<div class="card">
+Dimensional Snack<br>$66
+<br><button onclick="alert('PORTAL ERROR')">BUY</button>
+</div>
+
+<div class="card">
+Cipher Plush<br>$13
+<br><button onclick="alert('REALITY UNAVAILABLE')">BUY</button>
+</div>
+
+</div>
+
+<!-- ================= TERMINAL ================= -->
+<div id="terminal" class="section">
+
+<h2>ENTER ACCESS CODE</h2>
+
+<input id="code" placeholder="TYPE CODE">
+<button onclick="checkCode()">ENTER</button>
+
+<div id="result" style="margin-top:20px;"></div>
+
+</div>
+
+<script>
+
+/* PAGE SWITCH */
+function show(id){
+document.querySelectorAll(".section")
+.forEach(s=>s.style.display="none");
+document.getElementById(id).style.display="block";
+}
+
+/* SECRET + MINIGAMES */
+function checkCode(){
+
+let code=document
+.getElementById("code")
+.value.toLowerCase();
+
+let r=document.getElementById("result");
+
+/* MARIO GAME */
+if(code=="mario"){
+r.innerHTML=`
+<h3>MARIO JUMP</h3>
+<button onclick="score++">JUMP 🍄</button>
+<p>Score: <span id="mScore">0</span></p>
+`;
+window.score=0;
+setInterval(()=>{
+let el=document.getElementById("mScore");
+if(el) el.innerText=score;
+},100);
+}
+
+/* ANIMAL CROSSING */
+else if(code=="animal crossing"){
+r.innerHTML=`
+<h3>CATCH THE LEAF 🍃</h3>
+<button onclick="leaf()">Catch!</button>
+<p id="leafScore">0</p>
+`;
+window.ls=0;
+window.leaf=function(){
+ls++;
+document.getElementById("leafScore").innerText=ls;
+}
+}
+
+/* SONIC */
+else if(code=="sonic"){
+r.innerHTML=`
+<h3>SONIC SPEED TEST</h3>
+<button onclick="speed()">GO FAST</button>
+<p id="spd">0</p>
+`;
+window.sp=0;
+window.speed=function(){
+sp+=5;
+document.getElementById("spd")
+.innerText=sp+" SPEED";
+}
+}
+
+/* BLOX */
+else if(code=="blox"){
+r.innerHTML=`
+<h3>BLOCK BUILDER</h3>
+<button onclick="block()">PLACE BLOCK</button>
+<div id="world"></div>
+`;
+window.block=function(){
+document.getElementById("world")
+.innerHTML+="🧱";
+}
+}
+
+/* MINECRAFT SCREENSHOT */
+else if(code=="minecraft"){
+r.innerHTML="<img src='movieshot.png' width='500'>";
+}
+
+else{
+r.innerHTML="ACCESS DENIED";
+}
+
+}
+
+</script>
+
+</body>
+</html>
