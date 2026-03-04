@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>ULTRA ARG</title>
@@ -7,48 +7,91 @@
 <style>
 
 body{
+margin:0;
 background:black;
 color:white;
-font-family:Arial;
-text-align:center;
-margin:0;
+font-family:Courier New;
 overflow-x:hidden;
 }
 
-/* MOVIE LOGO */
-.movieLogo{
-width:300px;
-margin-top:30px;
+/* BACKGROUND GLOW */
+body::before{
+content:"";
+position:fixed;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at center,
+#111 0%,
+black 70%);
+z-index:-1;
 }
 
-/* SHOP LOGO */
+/* TOP BAR */
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+}
+
+/* LOGOS */
+.movieLogo{
+width:260px;
+filter:drop-shadow(0 0 20px white);
+}
+
 .shopLogo{
-width:180px;
-position:fixed;
-top:20px;
-right:20px;
+width:130px;
+opacity:.85;
+}
+
+/* HERO SECTION */
+.hero{
+text-align:center;
+margin-top:40px;
+}
+
+.hero h1{
+font-size:60px;
+letter-spacing:6px;
+text-shadow:0 0 20px red;
 }
 
 /* TRAILER */
-video{
-width:80%;
-margin-top:30px;
-border:3px solid white;
+.trailer{
+display:flex;
+justify-content:center;
+margin-top:40px;
 }
 
-/* SECRET INPUT */
+video{
+width:70%;
+border-radius:10px;
+box-shadow:0 0 40px red;
+}
+
+/* TERMINAL */
+.panel{
+width:70%;
+margin:60px auto;
+padding:25px;
+border:1px solid white;
+background:#050505;
+box-shadow:0 0 20px rgba(255,0,0,.4);
+}
+
 input{
-padding:12px;
-font-size:18px;
-margin-top:40px;
 background:black;
 color:white;
-border:2px solid white;
+border:1px solid white;
+padding:12px;
+font-size:18px;
+width:60%;
 }
 
 button{
 padding:12px 20px;
-font-size:18px;
 background:white;
 border:none;
 cursor:pointer;
@@ -56,37 +99,18 @@ cursor:pointer;
 
 /* SECRET AREA */
 #secretArea{
-margin-top:40px;
-display:none;
+margin-top:30px;
 }
 
-/* MINIGAME BOX */
-.game{
-margin-top:20px;
-padding:20px;
-border:2px solid white;
+/* GLITCH */
+@keyframes glitch{
+0%{transform:translate(2px);}
+50%{transform:translate(-2px);}
+100%{transform:translate(2px);}
 }
 
-/* DRAMATIC EFFECT */
-body::after{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-background:
-radial-gradient(circle,
-transparent 60%,
-rgba(255,0,0,0.2));
-animation:pulse 4s infinite;
-}
-
-@keyframes pulse{
-0%{opacity:.3;}
-50%{opacity:.7;}
-100%{opacity:.3;}
+.glitch{
+animation:glitch .15s infinite;
 }
 
 </style>
@@ -94,108 +118,90 @@ animation:pulse 4s infinite;
 
 <body>
 
-<!-- MOVIE LOGO -->
+<div class="topbar">
 <img src="A5B3C3D7-8E1C-461A-9BDA-0AA411E4BF28.png"
 class="movieLogo">
 
-<!-- SHOP LOGO -->
-<img src="shop.png" class="shopLogo">
+<img src="20733571-CD68-401E-BB67-C9D9A9E5D7FF.png"
+class="shopLogo">
+</div>
 
-<h1>ULTRA ARG</h1>
-<p>Reality Is Breaking...</p>
+<div class="hero">
+<h1 id="title">ULTRA ARG</h1>
+<p>SIGNAL DETECTED</p>
+</div>
 
-<!-- TRAILER -->
+<div class="trailer">
 <video controls>
 <source src="copy_B21255D0-64AD-4AF8-9A6B-C4885442C65E.mov">
 </video>
+</div>
 
-<h2>ENTER ACCESS CODE</h2>
+<div class="panel">
 
-<input id="codeInput" placeholder="ENTER CODE">
-<button onclick="checkCode()">UNLOCK</button>
+<h2>ACCESS TERMINAL</h2>
+
+<input id="codeInput"
+placeholder="ENTER CODE">
+
+<button onclick="checkCode()">EXECUTE</button>
 
 <div id="secretArea"></div>
 
+</div>
+
 <script>
+
+/* RANDOM GLITCH */
+setInterval(()=>{
+if(Math.random()<0.2){
+document.body.classList.add("glitch");
+setTimeout(()=>{
+document.body.classList.remove("glitch");
+},150);
+}
+},4000);
+
+/* TITLE CHANGE */
+setTimeout(()=>{
+document.getElementById("title")
+innerText="REALITY BREACH";
+},8000);
 
 function checkCode(){
 
-let code =
+let code=
 document.getElementById("codeInput")
 .value.toLowerCase();
 
-let area =
+let area=
 document.getElementById("secretArea");
 
-area.style.display="block";
-
-/* MARIO GAME */
-if(code==="mario"){
+if(code==="minecraft"){
 area.innerHTML=
-`
-<div class="game">
-<h2>Mario Mini Game</h2>
-<p>🍄 Jump Challenge Activated</p>
-<button onclick="alert('You jumped!')">
-JUMP
-</button>
-</div>
-`;
+`<h3>FILE RECOVERED</h3>
+<img src="IMG_5855.jpeg" width="100%">`;
 }
 
-/* ANIMAL CROSSING */
+else if(code==="mario"){
+area.innerHTML="<h3>Mario Simulation Loaded</h3>";
+}
+
 else if(code==="animal crossing"){
-area.innerHTML=
-`
-<div class="game">
-<h2>Animal Crossing Mode</h2>
-<p>🌿 Collect Bells!</p>
-<button onclick="alert('+100 Bells')">
-COLLECT
-</button>
-</div>
-`;
+area.innerHTML="<h3>Resident Access Granted</h3>";
 }
 
-/* SONIC */
 else if(code==="sonic"){
-area.innerHTML=
-`
-<div class="game">
-<h2>Sonic Speed Test</h2>
-<button onclick="alert('FAST!!!')">
-RUN
-</button>
-</div>
-`;
+area.innerHTML="<h3>Speed Protocol Enabled</h3>";
 }
 
-/* BLOX */
-else if(code==="blox"){
+else if(code==="ultra"){
 area.innerHTML=
-`
-<div class="game">
-<h2>Blox Simulation</h2>
-<p>You entered the block world.</p>
-</div>
-`;
-}
-
-/* MINECRAFT = MOVIE SHOT */
-else if(code==="minecraft"){
-area.innerHTML=
-`
-<div class="game">
-<h2>SECRET FILE UNLOCKED</h2>
-<img src="IMG_5855.jpeg"
-width="80%">
-</div>
-`;
+"<h3>ADMIN ACCESS CONFIRMED</h3>";
 }
 
 else{
-area.innerHTML=
-"<p>ACCESS DENIED</p>";
+area.innerHTML="ACCESS DENIED";
 }
 
 }
