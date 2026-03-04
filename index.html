@@ -2,115 +2,138 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
 <title>ULTRA ARG</title>
 
 <style>
 
+/* ---------- BACKGROUND ---------- */
+
 body{
 margin:0;
-background:black;
+font-family:system-ui;
+background:
+radial-gradient(circle at top,
+#1b1f3a,
+#090912 60%);
 color:white;
-font-family:Courier New;
 overflow-x:hidden;
 }
 
-/* BACKGROUND GLOW */
-body::before{
-content:"";
-position:fixed;
-width:100%;
-height:100%;
-background:
-radial-gradient(circle at center,
-#111 0%,
-black 70%);
-z-index:-1;
-}
+/* ---------- HEADER ---------- */
 
-/* TOP BAR */
-.topbar{
+.header{
 display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 40px;
 }
 
-/* LOGOS */
 .movieLogo{
 width:260px;
-filter:drop-shadow(0 0 20px white);
+filter:drop-shadow(0 0 25px cyan);
 }
 
 .shopLogo{
 width:130px;
-opacity:.85;
+cursor:pointer;
+transition:.3s;
 }
 
-/* HERO SECTION */
+.shopLogo:hover{
+transform:scale(1.1);
+}
+
+/* ---------- HERO ---------- */
+
 .hero{
 text-align:center;
-margin-top:40px;
+margin-top:20px;
 }
 
 .hero h1{
-font-size:60px;
-letter-spacing:6px;
-text-shadow:0 0 20px red;
+font-size:55px;
+letter-spacing:5px;
+text-shadow:0 0 25px cyan;
 }
 
-/* TRAILER */
+/* ---------- TRAILER ---------- */
+
 .trailer{
 display:flex;
 justify-content:center;
-margin-top:40px;
+margin:40px;
 }
 
 video{
-width:70%;
-border-radius:10px;
-box-shadow:0 0 40px red;
+width:80%;
+border-radius:12px;
+box-shadow:0 0 40px rgba(0,255,255,.4);
 }
 
-/* TERMINAL */
+/* ---------- TERMINAL ---------- */
+
 .panel{
-width:70%;
-margin:60px auto;
+width:80%;
+margin:auto;
 padding:25px;
-border:1px solid white;
-background:#050505;
-box-shadow:0 0 20px rgba(255,0,0,.4);
+background:rgba(0,0,0,.4);
+backdrop-filter:blur(10px);
+border-radius:12px;
+box-shadow:0 0 25px rgba(0,255,255,.2);
+text-align:center;
 }
 
 input{
-background:black;
-color:white;
-border:1px solid white;
 padding:12px;
 font-size:18px;
 width:60%;
+border-radius:6px;
+border:none;
 }
 
 button{
 padding:12px 20px;
-background:white;
 border:none;
+background:cyan;
 cursor:pointer;
+border-radius:6px;
 }
 
-/* SECRET AREA */
-#secretArea{
-margin-top:30px;
+/* ---------- SHOP ---------- */
+
+#shop{
+position:fixed;
+top:0;
+right:-400px;
+width:350px;
+height:100%;
+background:#0b0f25;
+transition:.5s;
+padding:20px;
+box-shadow:-5px 0 20px black;
 }
 
-/* GLITCH */
-@keyframes glitch{
-0%{transform:translate(2px);}
-50%{transform:translate(-2px);}
-100%{transform:translate(2px);}
+#shop.open{
+right:0;
 }
 
-.glitch{
-animation:glitch .15s infinite;
+/* ---------- GAME ---------- */
+
+canvas{
+background:#111;
+border-radius:10px;
+margin-top:20px;
+}
+
+.fade{
+animation:fade .6s;
+}
+
+@keyframes fade{
+from{opacity:0}
+to{opacity:1}
 }
 
 </style>
@@ -118,90 +141,164 @@ animation:glitch .15s infinite;
 
 <body>
 
-<div class="topbar">
+<!-- HEADER -->
+<div class="header">
+
 <img src="A5B3C3D7-8E1C-461A-9BDA-0AA411E4BF28.png"
 class="movieLogo">
 
 <img src="20733571-CD68-401E-BB67-C9D9A9E5D7FF.png"
-class="shopLogo">
+class="shopLogo"
+onclick="toggleShop()">
+
 </div>
 
+<!-- HERO -->
 <div class="hero">
-<h1 id="title">ULTRA ARG</h1>
+<h1>ULTRA ARG</h1>
 <p>SIGNAL DETECTED</p>
 </div>
 
+<!-- TRAILER -->
 <div class="trailer">
 <video controls>
 <source src="copy_B21255D0-64AD-4AF8-9A6B-C4885442C65E.mov">
 </video>
 </div>
 
+<!-- TERMINAL -->
 <div class="panel">
 
 <h2>ACCESS TERMINAL</h2>
 
-<input id="codeInput"
-placeholder="ENTER CODE">
-
-<button onclick="checkCode()">EXECUTE</button>
+<input id="codeInput" placeholder="enter code">
+<button onclick="checkCode()">ENTER</button>
 
 <div id="secretArea"></div>
 
 </div>
 
+<!-- SHOP PANEL -->
+<div id="shop">
+<h2>LA ROACHES THINGS & STUFF</h2>
+<p>Prototype Shop Interface</p>
+
+<p>🔒 Items locked</p>
+<p>Play games to unlock.</p>
+
+<button onclick="toggleShop()">Close</button>
+</div>
+
 <script>
 
-/* RANDOM GLITCH */
-setInterval(()=>{
-if(Math.random()<0.2){
-document.body.classList.add("glitch");
-setTimeout(()=>{
-document.body.classList.remove("glitch");
-},150);
+/* SHOP */
+function toggleShop(){
+document.getElementById("shop")
+.classList.toggle("open");
 }
-},4000);
 
-/* TITLE CHANGE */
-setTimeout(()=>{
-document.getElementById("title")
-innerText="REALITY BREACH";
-},8000);
+/* CODE SYSTEM */
 
 function checkCode(){
 
-let code=
+let code =
 document.getElementById("codeInput")
 .value.toLowerCase();
 
-let area=
-document.getElementById("secretArea");
-
-if(code==="minecraft"){
-area.innerHTML=
-`<h3>FILE RECOVERED</h3>
-<img src="IMG_5855.jpeg" width="100%">`;
+if(code==="mario"){
+startGame();
 }
 
-else if(code==="mario"){
-area.innerHTML="<h3>Mario Simulation Loaded</h3>";
-}
-
-else if(code==="animal crossing"){
-area.innerHTML="<h3>Resident Access Granted</h3>";
-}
-
-else if(code==="sonic"){
-area.innerHTML="<h3>Speed Protocol Enabled</h3>";
-}
-
-else if(code==="ultra"){
-area.innerHTML=
-"<h3>ADMIN ACCESS CONFIRMED</h3>";
+else if(code==="minecraft"){
+document.getElementById("secretArea")
+.innerHTML=
+"<img class='fade' src='IMG_5855.jpeg' width='100%'>";
 }
 
 else{
-area.innerHTML="ACCESS DENIED";
+document.getElementById("secretArea")
+.innerHTML="ACCESS DENIED";
+}
+
+}
+
+/* ---------- REAL MINIGAME ---------- */
+
+function startGame(){
+
+document.getElementById("secretArea")
+.innerHTML=
+"<canvas id='game' width='600' height='220'></canvas>";
+
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+
+let player={x:60,y:170,w:25,h:25,vy:0,jump:false};
+let gravity=.6;
+let obstacles=[];
+let score=0;
+
+document.onkeydown=jump;
+canvas.ontouchstart=jump;
+
+function jump(){
+if(!player.jump){
+player.vy=-11;
+player.jump=true;
+}
+}
+
+setInterval(()=>{
+obstacles.push({x:600,y:180,w:20,h:40});
+},1500);
+
+function loop(){
+
+ctx.clearRect(0,0,600,220);
+
+/* player */
+player.vy+=gravity;
+player.y+=player.vy;
+
+if(player.y>=170){
+player.y=170;
+player.jump=false;
+}
+
+ctx.fillStyle="cyan";
+ctx.fillRect(player.x,player.y,
+player.w,player.h);
+
+/* obstacles */
+for(let o of obstacles){
+
+o.x-=6;
+
+ctx.fillStyle="white";
+ctx.fillRect(o.x,o.y,o.w,o.h);
+
+if(
+player.x<o.x+o.w &&
+player.x+player.w>o.x &&
+player.y<o.y+o.h &&
+player.y+player.h>o.y
+){
+gameOver();
+}
+}
+
+score++;
+ctx.fillText("Score:"+score,500,20);
+
+requestAnimationFrame(loop);
+}
+
+loop();
+
+function gameOver(){
+document.getElementById("secretArea")
+.innerHTML=
+"<h2>GAME OVER<br>Score:"+score+"</h2>";
 }
 
 }
